@@ -9,7 +9,7 @@ Rails.application.routes.draw do
              },
              defaults: { format: :json }
 
-  resources :users, only: [:index, :show]
+  resources :users, only: [:show, :update]
   resources :proposals, only: [:index, :create, :show, :destroy], param: :code
 
   # Defines the root path route ("/")

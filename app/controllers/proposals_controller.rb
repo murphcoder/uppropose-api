@@ -15,14 +15,30 @@ class ProposalsController < ApplicationController
   
     # POST /proposals
     def create
-      @proposal = current_user.proposals.build(proposal_params)
-  
+      description = proposal_params[:job_description]
+      addresse = proposal_params[:addresse]
+    
+      generated_content = ProposalGenerator.generate(description: description, user: current_user, addresse: addresse)
+    
+      if generated_content.blank?
+        render json: { error: "Failed to generate proposal." }, status: :unprocessable_entity
+        return
+      end
+    
+      @proposal = current_user.proposals.build(
+        job_description: description,
+        addresse: addresse,
+        title: proposal_params[:title]
+        body: generated_content
+      )
+    
       if @proposal.save
         render json: @proposal, status: :created
       else
         render json: @proposal.errors, status: :unprocessable_entity
       end
     end
+    
   
     # DELETE /proposals/:id
     def destroy
@@ -38,6 +54,6 @@ class ProposalsController < ApplicationController
     end
   
     def proposal_params
-      params.require(:proposal).permit(:title, :body)
+      params.require(:proposal).permit(:title, :addresse, :job_description)
     end
 end

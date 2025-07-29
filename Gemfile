@@ -27,6 +27,8 @@ gem 'devise'
 gem 'devise-jwt'
 gem 'omniauth-google-oauth2'
 
+gem 'openai'
+
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
 

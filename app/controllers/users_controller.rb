@@ -1,19 +1,18 @@
 class Api::UsersController < ApplicationController
     before_action :authenticate_user!
   
-    # GET /me
-    def me
+    def show
       render json: current_user, status: :ok
     end
-  
-    # GET /users/:id/proposals
-    def proposals
-      user = User.find(params[:id])
-      if user == current_user
-        render json: user.proposals, status: :ok
-      else
-        render json: { error: "Access denied" }, status: :unauthorized
-      end
+
+    def update
+      current_user.update(user_params)
+    end
+
+    private
+
+    def user_params
+      params.require(:user).permit(:work_experience)
     end
 end
   
