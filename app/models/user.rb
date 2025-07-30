@@ -1,18 +1,15 @@
 class User < ApplicationRecord
-  devise :database_authenticatable,
-         :registerable,
-         :jwt_authenticatable,
-         :omniauthable,
-         jwt_revocation_strategy: Devise::JWT::RevocationStrategies::Null,
-         omniauth_providers: [:google_oauth2]
+  has_secure_password
   
   validates :first_name, presence: true
   validates :last_name, presence: true
 
-  def self.from_omniauth(auth)
-    user = where(provider: auth.provider, uid: auth.uid).first_or_initialize
-    user.email = auth.info.email
-    user.password = Devise.friendly_token[0, 20] if user.new_record?
+  def self.from_oauth(oauth_data)
+    user = where(provider: oauth_data['provider'], uid: oauth_data['id']).first_or_initialize
+    user.email = oauth_data['email']
+    user.first_name = oauth_data['given_name']
+    user.last_name = oauth_data['family_name']
+    user.password = SecureRandom.hex(10) if user.new_record?  # Set a random password if needed (or use OAuth token)
     user.save!
     user
   end

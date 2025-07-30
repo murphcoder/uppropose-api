@@ -23,11 +23,14 @@ gem "solid_cable"
 gem 'rack-cors'
 gem 'uuidtools'
 
-gem 'devise'
-gem 'devise-jwt'
-gem 'omniauth-google-oauth2'
+gem 'jwt'
+gem 'oauth2'
 
 gem 'openai'
+
+gem 'dotenv-rails'
+gem 'byebug'
+gem 'bcrypt', '~> 3.1.7'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
