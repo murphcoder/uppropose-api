@@ -9,7 +9,12 @@ class Api::UsersController < ApplicationController
     end
   end
 
-  def profile
+  def show
+    render json: { user: current_user }
+  end
+
+  def update
+    current_user.update(user_params)
     render json: { user: current_user }
   end
 
@@ -24,7 +29,7 @@ class Api::UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:email, :password, :password_confirmation)
+    params.require(:user).permit(:email, :password, :password_confirmation, :work_experience)
   end
 end
   

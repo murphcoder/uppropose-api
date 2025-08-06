@@ -1,10 +1,9 @@
-class ProposalsController < ApplicationController
-    before_action :authenticate_user!
-    before_action :set_proposal, only: [:show, :update, :destroy]
+class Api::ProposalsController < ApplicationController
+    before_action :set_proposal, only: [:show, :destroy]
   
     # GET /proposals
     def index
-      @proposals = current_user.proposals
+      @proposals = current_user.proposals.select(:title, :id)
       render json: @proposals
     end
   
@@ -28,12 +27,12 @@ class ProposalsController < ApplicationController
       @proposal = current_user.proposals.build(
         job_description: description,
         addresse: addresse,
-        title: proposal_params[:title]
+        title: proposal_params[:title], 
         body: generated_content
       )
     
       if @proposal.save
-        render json: @proposal, status: :created
+        render json: { proposal: @proposal }, status: :created
       else
         render json: @proposal.errors, status: :unprocessable_entity
       end

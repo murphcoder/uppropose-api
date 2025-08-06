@@ -8,6 +8,6 @@ class Proposal < ApplicationRecord
   private
 
   def create_title_if_absent
-    title = "Proposal Created For #{addresse} on #{DateTime.now}" unless title.present?
+    self.title = "Proposal Created For #{addresse} on #{Date.today}" if title.blank?
   end
 end
