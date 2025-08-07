@@ -7,9 +7,9 @@ Rails.application.routes.draw do
     post 'users/sign_in', to: 'users/sessions#create'    # Sign in
     delete 'users/sign_out', to: 'users/sessions#destroy' # Sign out (optional)
     post 'users/auth/google_oauth2/callback', to: 'users/google_oauth_callbacks#google_oauth2'
-    resources :users, only: [:show, :update]
+    resources :users, only: [:create, :show, :update]
     resources :proposals, only: [:index, :create, :show, :destroy]
   end
 
-  post '/gumroad/webhook', to: 'payments#gumroad_webhook'
+  post '/webhook', to: 'payments#webhook'
 end

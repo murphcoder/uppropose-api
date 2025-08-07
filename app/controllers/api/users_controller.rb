@@ -1,4 +1,6 @@
 class Api::UsersController < ApplicationController
+  skip_before_action :authenticate_user, only: [:create]
+
   def create
     user = User.new(user_params)
     if user.save
@@ -14,7 +16,23 @@ class Api::UsersController < ApplicationController
   end
 
   def update
-    current_user.update(user_params)
+    user = current_user
+    user.assign_attributes(user_params)
+
+    if user.stripe_customer_id.nil? && 
+      user.email.present? && 
+      user.first_name.present? && 
+      user.last_name.present?
+
+      stripe_customer = Stripe::Customer.create({
+        email: user.email,
+        name: user.full_name,
+      })
+
+      user.assign_attributes(stripe_customer_id: stripe_customer.id)
+    end
+
+    user.save
     render json: { user: current_user }
   end
 
@@ -29,7 +47,7 @@ class Api::UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:email, :password, :password_confirmation, :work_experience)
+    params.require(:user).permit(:email, :password, :password_confirmation, :work_experience, :first_name, :last_name)
   end
 end
   

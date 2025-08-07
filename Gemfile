@@ -31,6 +31,7 @@ gem 'openai'
 gem 'dotenv-rails'
 gem 'byebug'
 gem 'bcrypt', '~> 3.1.7'
+gem 'stripe'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false

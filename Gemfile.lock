@@ -303,6 +303,7 @@ GEM
       net-ssh (>= 2.8.0)
       ostruct
     stringio (3.1.7)
+    stripe (15.4.0)
     thor (1.4.0)
     thruster (0.1.14-arm64-darwin)
     timeout (0.4.3)
@@ -344,6 +345,7 @@ DEPENDENCIES
   solid_cable
   solid_cache
   solid_queue
+  stripe
   thruster
   tzinfo-data
   uuidtools

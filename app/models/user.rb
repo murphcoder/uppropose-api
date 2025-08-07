@@ -1,9 +1,6 @@
 class User < ApplicationRecord
   has_secure_password
   has_many :proposals
-  
-  validates :first_name, presence: true
-  validates :last_name, presence: true
 
   def self.from_oauth(oauth_data)
     user = where(provider: oauth_data['provider'], uid: oauth_data['id']).first_or_initialize
