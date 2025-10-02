@@ -12,7 +12,7 @@ class ApplicationController < ActionController::API
 
     if token.present?
       begin
-        decoded_token = JWT.decode(token, Rails.application.secret_key_base, true, { algorithm: 'HS256' }) # Decode the token
+        decoded_token = JWT.decode(token, Rails.application.secret_key_base, true, { algorithm: 'HS256', verify_expiration: true }) # Decode the token
         user_id = decoded_token[0]['user_id']  # Extract the user_id from the token payload
         @current_user = User.find(user_id)  # Find the user from the database
       rescue JWT::DecodeError => e

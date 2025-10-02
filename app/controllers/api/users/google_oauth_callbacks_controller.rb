@@ -18,7 +18,7 @@ class Api::Users::GoogleOauthCallbacksController < ApplicationController
           # Step 4: Generate JWT token if user is found/created
           if @user.persisted?
             token = encode_jwt_token(@user)
-            render json: { token: token, user: @user }, status: :ok
+            render json: { token: token, user: @user, expirationDate: @user.expiration_date, proposalCount: @user.proposals_this_month.count }, status: :ok
           else
             render json: { error: 'Authentication failed' }, status: :unauthorized
           end
