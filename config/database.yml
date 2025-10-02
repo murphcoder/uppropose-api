@@ -81,9 +81,7 @@ test:
 production:
   primary: &primary_production
     <<: *default
-    database: uppropose_api_production
-    username: uppropose_api
-    password: <%= ENV["UPPROPOSE_API_DATABASE_PASSWORD"] %>
+    url: <%= ENV['DATABASE_URL'] %>
   cache:
     <<: *primary_production
     database: uppropose_api_production_cache
